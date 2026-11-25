@@ -92,8 +92,4 @@ jobs:
             4. Producer-Consumer TaskQueue (wait/notifyAll) and ExecutorService Fixed Thread Pool.
             5. JDBC & MySQL Relational Database with ACID transaction rollback.
           
-          #### How to Run:
-          \`\`\`bash
-          java -jar interviewhub-1.0.0.jar
-          \`\`\`"
-          fi
+        

@@ -2,6 +2,7 @@
 -- InterviewHub: Database Schema Definition
 -- Multi-Interviewer Interview Management & Performance Tracking System
 -- Target RDBMS: MySQL 8.0+
+-- Relational Model: 3NF with Referential Integrity & Check Constraints
 -- ====================================================================
 
 CREATE DATABASE IF NOT EXISTS interviewhub_db

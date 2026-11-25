@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Candidate DAO
  * Manages database persistence for Candidates (joined with Users table).
+ * Implements parameterized JDBC queries and safe auto-generated key extraction.
  */
 public class CandidateDAO {
 

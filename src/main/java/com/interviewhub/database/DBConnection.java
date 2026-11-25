@@ -16,6 +16,10 @@ import java.util.Properties;
 public class DBConnection {
 
     private static final String DEFAULT_PROPERTIES_PATH = "src/main/resources/database.properties";
+    private static final String[] ALTERNATIVE_CONFIG_PATHS = {
+        "src/main/resources/database.properties",
+        "database.properties"
+    };
     private static final String DEFAULT_URL = "jdbc:mysql://localhost:3306/interviewhub_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String DEFAULT_USER = "root";
     private static final String DEFAULT_PASS = "";
@@ -38,13 +42,20 @@ public class DBConnection {
      */
     public static synchronized void loadConfiguration() {
         Properties props = new Properties();
-        File propFile = new File(DEFAULT_PROPERTIES_PATH);
+        File propFile = null;
+        for (String configPath : ALTERNATIVE_CONFIG_PATHS) {
+            File candidate = new File(configPath);
+            if (candidate.exists()) {
+                propFile = candidate;
+                break;
+            }
+        }
 
-        if (propFile.exists()) {
+        if (propFile != null && propFile.exists()) {
             try (InputStream input = new FileInputStream(propFile)) {
                 props.load(input);
             } catch (IOException e) {
-                System.err.println("[WARN] Failed to load " + DEFAULT_PROPERTIES_PATH + ": " + e.getMessage());
+                System.err.println("[WARN] Failed to load " + propFile.getPath() + ": " + e.getMessage());
             }
         } else {
             // Attempt to load from classpath

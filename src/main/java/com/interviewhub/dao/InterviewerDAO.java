@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Interviewer DAO
  * Manages database persistence for Interviewers (joined with Users table).
+ * Implements CRUD operations, profile retrieval, and analytical statistics queries.
  */
 public class InterviewerDAO {
 

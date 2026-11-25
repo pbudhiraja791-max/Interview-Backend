@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * User Data Access Object (DAO)
  * Handles CRUD operations on the 'users' table using PreparedStatement and try-with-resources.
+ * Provides parameterized query execution for secure user entity management.
  */
 public class UserDAO {
 

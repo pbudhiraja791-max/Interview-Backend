@@ -5,17 +5,6 @@ import com.interviewhub.ui.ConsoleUI;
 
 import java.util.Scanner;
 
-/**
- * InterviewHub Application Entry Point
- * Multi-Interviewer Interview Management & Performance Tracking System
- *
- * College Academic Java Project demonstrating:
- * - Milestone 1: OOP, Inheritance, Interfaces (Eligible, Evaluatable), Strings, Exception Handling
- * - Milestone 2: Java Collections (ArrayList, HashMap, HashSet, Comparator Sorting, Iterators)
- * - Milestone 3: Multithreading & Synchronization (Atomic Check-and-Decrement SlotManager)
- * - Milestone 4: Producer-Consumer (wait / notifyAll) & Executor Framework (Callable / Future)
- * - Milestone 5: JDBC & MySQL Relational Database (DAOs, PreparedStatements, Transactions)
- */
 public class Main {
 
     public static void main(String[] args) {

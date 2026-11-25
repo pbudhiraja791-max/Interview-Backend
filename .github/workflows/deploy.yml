@@ -90,6 +90,5 @@ jobs:
             2. Java Collections (ArrayList, HashMap fast lookup, HashSet uniqueness, Comparator sorting).
             3. Multithreading & Synchronization (Atomic SlotManager check-and-decrement).
             4. Producer-Consumer TaskQueue (wait/notifyAll) and ExecutorService Fixed Thread Pool.
-            5. JDBC & MySQL Relational Database with ACID transaction rollback.
-          
-        
+            5. JDBC & MySQL Relational Database with ACID transaction rollback."
+          fi

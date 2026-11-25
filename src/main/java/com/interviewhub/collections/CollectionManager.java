@@ -208,7 +208,7 @@ public class CollectionManager {
     }
 
     /**
-     * Milestone 2 Feature: Top Five Candidates by Average Interview Score.
+     * Top Five Candidates by Average Interview Score.
      * Combines Interview records with candidate lookups and sorts descending.
      */
     public List<Map.Entry<Candidate, Double>> getTopFiveCandidatesByScore() {

@@ -8,26 +8,7 @@ import com.interviewhub.model.User;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Milestone 2: Collections and Record Management
- *
- * Demonstrates:
- * 1. ArrayList: Dynamic in-memory list manipulation (add, remove, update, search, filter, iterate).
- * 2. HashMap: O(1) key-based lookups for Users, Candidates, and Interviews.
- * 3. HashSet: Duplicate prevention for emails and unique candidate IDs.
- * 4. Comparator-based sorting:
- *    - Candidates by CGPA (descending)
- *    - Candidates by Name (alphabetical)
- *    - Candidates by Average Interview Score (descending)
- *    - Interviews by Date (chronological)
- * 5. Top 5 Candidates ranking by average score.
- * 6. Filtering candidates by Department or Specialization.
- * 7. Iterator and enhanced for-loop traversals.
- *
- * Architecture Role:
- * Used as an in-memory caching and high-performance reporting dataset.
- * MySQL remains the permanent source of truth.
- */
+
 public class CollectionManager {
 
     // 1. ArrayLists for storing temporary working datasets

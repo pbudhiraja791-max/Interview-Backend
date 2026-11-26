@@ -88,7 +88,8 @@ INSERT INTO interview_requests (request_id, candidate_id, interviewer_id, interv
 (7, 3, 2, 'HR', '2025-03-05', '11:00:00', 'ACCEPTED'),
 (8, 4, 1, 'TECHNICAL', '2025-03-10', '10:00:00', 'ACCEPTED'),
 (9, 5, 2, 'HR', '2025-03-15', '14:00:00', 'ACCEPTED'),
-(10, 2, 3, 'TECHNICAL', '2025-03-20', '15:30:00', 'PENDING');
+(10, 2, 1, 'TECHNICAL', '2025-03-18', '15:00:00', 'ACCEPTED'),
+(11, 2, 3, 'TECHNICAL', '2025-03-20', '15:30:00', 'PENDING');
 
 -- 9. Insert Interviews
 -- Rahul Sharma (candidate 1): 4 interviews showing clear progression 55 -> 68 -> 78 -> 90
@@ -106,7 +107,7 @@ INSERT INTO interviews (interview_id, candidate_id, interviewer_id, request_id, 
 (7, 3, 2, 7, 'HR',        '2025-03-05', '11:00:00', 'COMPLETED', 80.00),
 (8, 4, 1, 8, 'TECHNICAL', '2025-03-10', '10:00:00', 'COMPLETED', 85.00),
 (9, 5, 2, 9, 'HR',        '2025-03-15', '14:00:00', 'COMPLETED', 70.00),
-(10,2, 1, 5, 'TECHNICAL', '2025-03-18', '15:00:00', 'COMPLETED', 92.00);
+(10,2, 1, 10, 'TECHNICAL', '2025-03-18', '15:00:00', 'COMPLETED', 92.00);
 
 -- 10. Insert Feedback
 INSERT INTO interview_feedback (feedback_id, interview_id, interviewer_id, feedback_text, overall_score, submitted_at) VALUES

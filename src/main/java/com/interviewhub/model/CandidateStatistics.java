@@ -154,7 +154,8 @@ public class CandidateStatistics {
     public String toFormattedReport() {
         StringBuilder sb = new StringBuilder();
         sb.append("==============================================================\n");
-        sb.append(String.format("PERFORMANCE TRACKING REPORT: %s (ID: %d)\n",
+        sb.append(String.format("  COMPREHENSIVE PERFORMANCE REPORT\n"));
+        sb.append(String.format("  Candidate : %s  (ID: %d)\n",
                 candidateName != null ? candidateName : "Candidate", candidateId));
         sb.append("==============================================================\n");
         sb.append(String.format("Total Interviews Attended  : %d\n", totalAttended));
@@ -171,25 +172,37 @@ public class CandidateStatistics {
         sb.append(String.format("Highest Score Achieved     : %.2f / 100.00\n", highestScore));
         sb.append(String.format("Lowest Score Achieved      : %.2f / 100.00\n", lowestScore));
 
+        // Performance Grade
+        sb.append(String.format("Performance Grade          : %s\n", getPerformanceGrade(averageScore)));
+        sb.append(String.format("Readiness Level            : %s\n", getReadinessLevel(averageScore)));
+
         if (firstScore != null && latestScore != null) {
             sb.append(String.format("First Interview Score      : %.2f / 100.00\n", firstScore));
             sb.append(String.format("Latest Interview Score     : %.2f / 100.00\n", latestScore));
             if (improvementPercentage != null) {
                 String prefix = improvementPercentage >= 0 ? "+" : "";
-                sb.append(String.format("Improvement Percentage     : %s%.2f%%\n", prefix, improvementPercentage));
+                String trend = improvementPercentage > 5 ? " [IMPROVING ▲]"
+                        : improvementPercentage < -5 ? " [DECLINING ▼]" : " [STABLE ►]";
+                sb.append(String.format("Score Trend                : %s%.2f%%%s\n",
+                        prefix, improvementPercentage, trend));
             } else if (firstScore == 0.0) {
-                sb.append("Improvement Percentage     : Initial score was 0.00 (Baseline initialized)\n");
+                sb.append("Score Trend                : Baseline initialized (first score was 0.00)\n");
             }
         }
+
+        // Visual score bar
+        sb.append("--------------------------------------------------------------\n");
+        sb.append(String.format("Score Progress Bar         : %s  %.0f%%\n",
+                buildScoreBar(averageScore), averageScore));
 
         sb.append("--------------------------------------------------------------\n");
         sb.append("SKILL ANALYSIS:\n");
         if (strongestSkill != null) {
-            sb.append(String.format("  * Strongest Competency   : %s (Avg: %.2f / 100.00)\n",
+            sb.append(String.format("  * Strongest Competency   : %-25s (Avg: %.2f / 100.00)\n",
                     strongestSkill, strongestSkillScore));
         }
         if (weakestSkill != null) {
-            sb.append(String.format("  * Areas for Growth       : %s (Avg: %.2f / 100.00)\n",
+            sb.append(String.format("  * Areas for Growth       : %-25s (Avg: %.2f / 100.00)\n",
                     weakestSkill, weakestSkillScore));
         }
 
@@ -197,10 +210,61 @@ public class CandidateStatistics {
             sb.append("--------------------------------------------------------------\n");
             sb.append("Skill-wise Average Breakdown:\n");
             for (Map.Entry<String, Double> entry : skillAverages.entrySet()) {
-                sb.append(String.format("  - %-25s : %6.2f / 100.00\n", entry.getKey(), entry.getValue()));
+                sb.append(String.format("  - %-25s : %5.2f / 100  %s\n",
+                        entry.getKey(), entry.getValue(),
+                        buildScoreBar(entry.getValue())));
             }
         }
+
+        sb.append("--------------------------------------------------------------\n");
+        sb.append(getPlacementRecommendation(averageScore));
         sb.append("==============================================================\n");
         return sb.toString();
+    }
+
+    private String getPerformanceGrade(double score) {
+        if (score >= 90) return "A+  (Outstanding)";
+        if (score >= 80) return "A   (Excellent)";
+        if (score >= 70) return "B+  (Very Good)";
+        if (score >= 60) return "B   (Good)";
+        if (score >= 50) return "C   (Average)";
+        if (score >= 40) return "D   (Below Average)";
+        return                  "F   (Needs Significant Improvement)";
+    }
+
+    private String getReadinessLevel(double score) {
+        if (score >= 85) return "PLACEMENT READY          - Highly competitive for top-tier companies";
+        if (score >= 70) return "INTERVIEW READY          - Suitable for mid-level company interviews";
+        if (score >= 55) return "DEVELOPING               - Continue practice, focus on weak areas";
+        return                  "NEEDS PREPARATION        - Recommend intensive preparation before applying";
+    }
+
+    private String buildScoreBar(double score) {
+        int filled = (int) Math.round(score / 10);
+        filled = Math.min(filled, 10);
+        StringBuilder bar = new StringBuilder("[");
+        for (int i = 0; i < 10; i++) {
+            bar.append(i < filled ? "##" : "--");
+        }
+        bar.append("]");
+        return bar.toString();
+    }
+
+    private String getPlacementRecommendation(double score) {
+        StringBuilder rec = new StringBuilder("PLACEMENT RECOMMENDATION:\n");
+        if (score >= 85) {
+            rec.append("  Eligible for top-tier companies: Google, Microsoft, Amazon.\n");
+            rec.append("  Focus: System Design and leadership scenarios in next rounds.\n");
+        } else if (score >= 70) {
+            rec.append("  Eligible for mid-tier companies: TCS Digital, Infosys, Wipro.\n");
+            rec.append("  Focus: Strengthen DSA and project-based problem solving.\n");
+        } else if (score >= 55) {
+            rec.append("  Consider service-based companies and startups.\n");
+            rec.append("  Focus: Core Java, SQL, and behavioral interview prep.\n");
+        } else {
+            rec.append("  Recommend 4-6 weeks of intensive preparation.\n");
+            rec.append("  Focus: Fundamentals, mock interviews, and aptitude tests.\n");
+        }
+        return rec.toString();
     }
 }

@@ -44,16 +44,17 @@ public class ConsoleUI {
         boolean running = true;
         while (running) {
             printHeader("INTERVIEWHUB - MAIN MENU");
-            System.out.println("1. Candidate Registration");
-            System.out.println("2. Candidate Login");
-            System.out.println("3. Interviewer Login");
-            System.out.println("4. Admin Login");
-            System.out.println("5. Run Milestone 3: Multithreading & Synchronization Demo");
-            System.out.println("6. Run Milestone 4: Producer-Consumer & Executor Framework Demo");
-            System.out.println("7. Run Milestone 2: Collections In-Memory Analytics Demo");
-            System.out.println("8. Test Database Connection");
-            System.out.println("9. Exit Application");
-            System.out.print("\nEnter your choice (1-9): ");
+            System.out.println("1.  Candidate Registration");
+            System.out.println("2.  Interviewer Registration");
+            System.out.println("3.  Candidate Login");
+            System.out.println("4.  Interviewer Login");
+            System.out.println("5.  Admin Login");
+            System.out.println("6.  Run Milestone 3: Multithreading & Synchronization Demo");
+            System.out.println("7.  Run Milestone 4: Producer-Consumer & Executor Framework Demo");
+            System.out.println("8.  Run Milestone 2: Collections In-Memory Analytics Demo");
+            System.out.println("9.  Test Database Connection");
+            System.out.println("10. Exit Application");
+            System.out.print("\nEnter your choice (1-10): ");
 
             String choice = scanner.nextLine().trim();
             switch (choice) {
@@ -61,38 +62,41 @@ public class ConsoleUI {
                     handleCandidateRegistration();
                     break;
                 case "2":
-                    handleCandidateLogin();
+                    handleInterviewerRegistration();
                     break;
                 case "3":
-                    handleInterviewerLogin();
+                    handleCandidateLogin();
                     break;
                 case "4":
-                    handleAdminLogin();
+                    handleInterviewerLogin();
                     break;
                 case "5":
+                    handleAdminLogin();
+                    break;
+                case "6":
                     InterviewReservationTask.runConcurrencySimulation();
                     pauseForEnter();
                     break;
-                case "6":
+                case "7":
                     AsyncPipelineManager.runProducerConsumerSimulation();
                     System.out.println();
                     AsyncPipelineManager.runExecutorServiceSimulation();
                     pauseForEnter();
                     break;
-                case "7":
+                case "8":
                     runCollectionsDemo();
                     pauseForEnter();
                     break;
-                case "8":
+                case "9":
                     testDb();
                     pauseForEnter();
                     break;
-                case "9":
+                case "10":
                     System.out.println("\nThank you for using InterviewHub. Goodbye!");
                     running = false;
                     break;
                 default:
-                    printError("Invalid option. Please choose a number from 1 to 9.");
+                    printError("Invalid option. Please choose a number from 1 to 10.");
             }
         }
     }
@@ -132,6 +136,45 @@ public class ConsoleUI {
 
         } catch (NumberFormatException e) {
             printError("Invalid number format for CGPA or Graduation Year.");
+        } catch (InvalidEmailException | DuplicateRecordException | IllegalArgumentException e) {
+            printError(e.getMessage());
+        } catch (SQLException e) {
+            printError("Database error during registration: " + e.getMessage());
+        }
+        pauseForEnter();
+    }
+
+    private void handleInterviewerRegistration() {
+        printHeader("INTERVIEWER REGISTRATION");
+        try {
+            System.out.print("Enter Full Name: ");
+            String name = scanner.nextLine();
+
+            System.out.print("Enter Email Address: ");
+            String email = scanner.nextLine();
+
+            System.out.print("Create Password (min 6 characters): ");
+            String password = scanner.nextLine();
+
+            System.out.print("Enter Organization / Company Name: ");
+            String org = scanner.nextLine();
+
+            System.out.print("Enter Specialization (e.g. Software Engineering, Human Resources): ");
+            String spec = scanner.nextLine();
+
+            System.out.print("Enter Years of Experience: ");
+            int expYears = Integer.parseInt(scanner.nextLine().trim());
+
+            System.out.print("Enter Expertise / Technical Skills (e.g. Java, Spring Boot, Algorithms): ");
+            String expertise = scanner.nextLine();
+
+            Interviewer registered = authService.registerInterviewer(name, email, password, expertise, expYears, spec, org);
+            printSuccess("Interviewer registration successful! Welcome, " + registered.getName()
+                    + " (Interviewer ID: " + registered.getInterviewerId() + ").");
+            printSuccess("You may now log in using option 4.");
+
+        } catch (NumberFormatException e) {
+            printError("Invalid number format for Years of Experience.");
         } catch (InvalidEmailException | DuplicateRecordException | IllegalArgumentException e) {
             printError(e.getMessage());
         } catch (SQLException e) {

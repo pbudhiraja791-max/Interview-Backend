@@ -125,10 +125,16 @@ public class DBConnection {
      * @throws SQLException if a database access error occurs
      */
     public static Connection getConnection() throws SQLException {
-        if (!initialized) {
+        if (!initialized || dbPassword == null || dbPassword.isEmpty()) {
             loadConfiguration();
         }
-        return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        try {
+            return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        } catch (SQLException e) {
+            // Attempt to reload configuration once in case database.properties was updated on disk
+            loadConfiguration();
+            return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        }
     }
 
     /**

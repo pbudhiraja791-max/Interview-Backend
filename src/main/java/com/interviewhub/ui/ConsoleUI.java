@@ -1204,7 +1204,20 @@ public class ConsoleUI {
         if (ok) {
             printSuccess("Connection established successfully! MySQL database is reachable.");
         } else {
-            printError("Connection FAILED. Check src/main/resources/database.properties credentials or MySQL service status.");
+            printError("Connection FAILED: Access denied or database not reachable.");
+            System.out.print("\nWould you like to enter / update your MySQL root password now? (y/n): ");
+            String ans = scanner.nextLine().trim();
+            if ("y".equalsIgnoreCase(ans)) {
+                System.out.print("Enter MySQL root password: ");
+                String newPass = scanner.nextLine().trim();
+                DBConnection.saveConfiguration(DBConnection.getDbUrl(), DBConnection.getDbUser(), newPass);
+                System.out.println("\nRetesting connection with new password...");
+                if (DBConnection.testConnection()) {
+                    printSuccess("Connection established successfully! Credentials saved.");
+                } else {
+                    printError("Connection still failed. Ensure MySQL service is running and 'interviewhub_db' database is imported.");
+                }
+            }
         }
     }
 

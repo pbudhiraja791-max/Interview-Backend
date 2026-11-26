@@ -88,6 +88,36 @@ public class DBConnection {
     }
 
     /**
+     * Updates runtime credentials and saves them to src/main/resources/database.properties.
+     */
+    public static synchronized boolean saveConfiguration(String url, String user, String password) {
+        configure(url, user, password);
+        File propFile = new File(DEFAULT_PROPERTIES_PATH);
+        File parent = propFile.getParentFile();
+        if (parent != null && !parent.exists()) {
+            parent.mkdirs();
+        }
+        Properties props = new Properties();
+        props.setProperty("db.url", url);
+        props.setProperty("db.user", user);
+        props.setProperty("db.password", password != null ? password : "");
+        try (java.io.FileOutputStream out = new java.io.FileOutputStream(propFile)) {
+            props.store(out, "Updated via InterviewHub Console UI");
+            // Also update database.properties in root if it exists
+            File rootFile = new File("database.properties");
+            if (rootFile.exists()) {
+                try (java.io.FileOutputStream rootOut = new java.io.FileOutputStream(rootFile)) {
+                    props.store(rootOut, "Updated via InterviewHub Console UI");
+                } catch (IOException ignored) {}
+            }
+            return true;
+        } catch (IOException e) {
+            System.err.println("[WARN] Could not save database.properties: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Obtains a fresh database connection.
      * Callers must close it or manage it within try-with-resources.
      *

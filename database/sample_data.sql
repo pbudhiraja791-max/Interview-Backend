@@ -11,6 +11,10 @@ USE interviewhub_db;
 INSERT INTO users (user_id, name, email, password_hash, password_salt, role, status) VALUES
 (1, 'System Administrator', 'admin@interviewhub.com', '+5wtv982JTwtU0bD+IX/lXgiETiKQ3FiknO2wUqkt9M=', 'fNwhqhQT4+c4IWyhomcS3w==', 'ADMIN', 'ACTIVE');
 
+-- Admin Account: Parth Budhiraja | Email: pbudhiraja791@gmail.com | Password: 123456
+INSERT INTO users (user_id, name, email, password_hash, password_salt, role, status) VALUES
+(10, 'Parth Budhiraja', 'pbudhiraja791@gmail.com', 'CqRw4lnjBtc8KZbw0HaMvgrJid3qig6YAur64NbCn+w=', 'mH3kPqL1xZ+9vW2nYsT8dA==', 'ADMIN', 'ACTIVE');
+
 -- Interviewers Password: Password@123
 INSERT INTO users (user_id, name, email, password_hash, password_salt, role, status) VALUES
 (2, 'Dr. Sarah Jenkins', 'sarah.swe@techcorp.com', 'DmT998AqIr0NmwNwn3GLOTvqCp9q5vH6anrJUZoQ55Y=', 'ko5IguSKFvRHpLdtYIKUQQ==', 'INTERVIEWER', 'ACTIVE'),
@@ -58,7 +62,10 @@ INSERT INTO applications (application_id, candidate_id, drive_id, application_da
 (1, 1, 1, '2025-01-10 10:00:00', 'SHORTLISTED'),
 (2, 1, 2, '2025-01-12 11:30:00', 'APPLIED'),
 (3, 2, 1, '2025-01-15 09:15:00', 'SHORTLISTED'),
-(4, 3, 4, '2025-01-18 14:00:00', 'APPLIED');
+(4, 3, 4, '2025-01-18 14:00:00', 'APPLIED'),
+(5, 2, 3, '2025-01-20 10:30:00', 'SELECTED'),
+(6, 4, 4, '2025-01-22 09:00:00', 'SHORTLISTED'),
+(7, 5, 4, '2025-01-25 11:00:00', 'APPLIED');
 
 -- 7. Insert Questions into Question Bank
 INSERT INTO questions (question_id, question_text, category, difficulty, specialization, created_by) VALUES
@@ -77,15 +84,29 @@ INSERT INTO interview_requests (request_id, candidate_id, interviewer_id, interv
 (3, 1, 2, 'HR', '2025-02-01', '14:00:00', 'ACCEPTED'),
 (4, 1, 1, 'TECHNICAL', '2025-02-15', '10:30:00', 'ACCEPTED'),
 (5, 2, 1, 'TECHNICAL', '2025-02-18', '15:00:00', 'ACCEPTED'),
-(6, 3, 3, 'TECHNICAL', '2025-02-25', '16:00:00', 'PENDING');
+(6, 3, 3, 'TECHNICAL', '2025-02-25', '16:00:00', 'ACCEPTED'),
+(7, 3, 2, 'HR', '2025-03-05', '11:00:00', 'ACCEPTED'),
+(8, 4, 1, 'TECHNICAL', '2025-03-10', '10:00:00', 'ACCEPTED'),
+(9, 5, 2, 'HR', '2025-03-15', '14:00:00', 'ACCEPTED'),
+(10, 2, 3, 'TECHNICAL', '2025-03-20', '15:30:00', 'PENDING');
 
--- 9. Insert Interviews (Rahul Sharma has 4 interviews showing progression: 55 -> 68 -> 78 -> 90)
+-- 9. Insert Interviews
+-- Rahul Sharma (candidate 1): 4 interviews showing clear progression 55 -> 68 -> 78 -> 90
+-- Ananya Patel (candidate 2): 2 interviews (88, 92)
+-- Vikram Singh (candidate 3): 2 interviews (72, 80)
+-- Neha Gupta   (candidate 4): 1 interview  (85)
+-- Arjun Reddy  (candidate 5): 1 interview  (70)
 INSERT INTO interviews (interview_id, candidate_id, interviewer_id, request_id, interview_type, interview_date, interview_time, interview_status, overall_score) VALUES
 (1, 1, 1, 1, 'TECHNICAL', '2025-01-05', '10:00:00', 'COMPLETED', 55.00),
 (2, 1, 1, 2, 'TECHNICAL', '2025-01-20', '11:00:00', 'COMPLETED', 68.00),
-(3, 1, 2, 3, 'HR', '2025-02-01', '14:00:00', 'COMPLETED', 78.00),
+(3, 1, 2, 3, 'HR',        '2025-02-01', '14:00:00', 'COMPLETED', 78.00),
 (4, 1, 1, 4, 'TECHNICAL', '2025-02-15', '10:30:00', 'COMPLETED', 90.00),
-(5, 2, 1, 5, 'TECHNICAL', '2025-02-18', '15:00:00', 'COMPLETED', 88.00);
+(5, 2, 1, 5, 'TECHNICAL', '2025-02-18', '15:00:00', 'COMPLETED', 88.00),
+(6, 3, 3, 6, 'TECHNICAL', '2025-02-25', '16:00:00', 'COMPLETED', 72.00),
+(7, 3, 2, 7, 'HR',        '2025-03-05', '11:00:00', 'COMPLETED', 80.00),
+(8, 4, 1, 8, 'TECHNICAL', '2025-03-10', '10:00:00', 'COMPLETED', 85.00),
+(9, 5, 2, 9, 'HR',        '2025-03-15', '14:00:00', 'COMPLETED', 70.00),
+(10,2, 1, 5, 'TECHNICAL', '2025-03-18', '15:00:00', 'COMPLETED', 92.00);
 
 -- 10. Insert Feedback
 INSERT INTO interview_feedback (feedback_id, interview_id, interviewer_id, feedback_text, overall_score, submitted_at) VALUES
@@ -93,7 +114,12 @@ INSERT INTO interview_feedback (feedback_id, interview_id, interviewer_id, feedb
 (2, 2, 1, 'Noticable improvement in Java collections and exception handling. Needs more clarity on thread synchronization.', 68.00, '2025-01-20 12:00:00'),
 (3, 3, 2, 'Good communication skills, structured answers, and honest self-assessment during behavioral queries.', 78.00, '2025-02-01 15:00:00'),
 (4, 4, 1, 'Outstanding performance! Successfully implemented lock-free patterns and articulated complex DB indexing strategies clearly.', 90.00, '2025-02-15 11:30:00'),
-(5, 5, 1, 'Strong grasp of distributed systems, high confidence, and clean code articulation.', 88.00, '2025-02-18 16:00:00');
+(5, 5, 1, 'Strong grasp of distributed systems, high confidence, and clean code articulation.', 88.00, '2025-02-18 16:00:00'),
+(6, 6, 3, 'Solid understanding of database design. Could improve on algorithm complexity analysis.', 72.00, '2025-02-25 17:00:00'),
+(7, 7, 2, 'Excellent communication and team orientation. Very honest about limitations and demonstrated growth mindset.', 80.00, '2025-03-05 12:00:00'),
+(8, 8, 1, 'Exceptional problem-solving ability. Comfortable with multithreading and JDBC. Ready for senior interviews.', 85.00, '2025-03-10 11:00:00'),
+(9, 9, 2, 'Good personality fit and clear career vision. Work on structured storytelling for behavioral rounds.', 70.00, '2025-03-15 15:00:00'),
+(10,10, 1, 'Remarkable consistency. Demonstrated deep understanding of cloud systems and distributed architecture.', 92.00, '2025-03-18 16:30:00');
 
 -- 11. Insert Skill Scores (Demonstrating category-wise progression)
 -- Interview 1 (Rahul - Score 55)
@@ -140,3 +166,48 @@ INSERT INTO skill_scores (feedback_id, skill_name, score) VALUES
 (5, 'Confidence', 88.00),
 (5, 'Logical Thinking', 90.00),
 (5, 'Subject Knowledge', 87.00);
+
+-- Interview 6 (Vikram - Score 72)
+INSERT INTO skill_scores (feedback_id, skill_name, score) VALUES
+(6, 'Technical Knowledge', 70.00),
+(6, 'Problem Solving', 72.00),
+(6, 'Communication Skills', 68.00),
+(6, 'Confidence', 72.00),
+(6, 'Logical Thinking', 75.00),
+(6, 'Subject Knowledge', 75.00);
+
+-- Interview 7 (Vikram - Score 80)
+INSERT INTO skill_scores (feedback_id, skill_name, score) VALUES
+(7, 'Technical Knowledge', 75.00),
+(7, 'Problem Solving', 78.00),
+(7, 'Communication Skills', 85.00),
+(7, 'Confidence', 82.00),
+(7, 'Logical Thinking', 80.00),
+(7, 'Subject Knowledge', 80.00);
+
+-- Interview 8 (Neha - Score 85)
+INSERT INTO skill_scores (feedback_id, skill_name, score) VALUES
+(8, 'Technical Knowledge', 88.00),
+(8, 'Problem Solving', 85.00),
+(8, 'Communication Skills', 82.00),
+(8, 'Confidence', 84.00),
+(8, 'Logical Thinking', 87.00),
+(8, 'Subject Knowledge', 84.00);
+
+-- Interview 9 (Arjun - Score 70)
+INSERT INTO skill_scores (feedback_id, skill_name, score) VALUES
+(9, 'Technical Knowledge', 65.00),
+(9, 'Problem Solving', 68.00),
+(9, 'Communication Skills', 75.00),
+(9, 'Confidence', 72.00),
+(9, 'Logical Thinking', 70.00),
+(9, 'Subject Knowledge', 70.00);
+
+-- Interview 10 (Ananya - Score 92)
+INSERT INTO skill_scores (feedback_id, skill_name, score) VALUES
+(10, 'Technical Knowledge', 94.00),
+(10, 'Problem Solving', 92.00),
+(10, 'Communication Skills', 90.00),
+(10, 'Confidence', 92.00),
+(10, 'Logical Thinking', 93.00),
+(10, 'Subject Knowledge', 91.00);
